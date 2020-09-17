@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Csomagoltak Módosítása</title>
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+
+</head>
+<body>
+    <div class="sidenav">
+        <a th:href="@{/csomagoltak}">Csomagolt áru</a>
+        <a th:href="@{/gyumolcseszoldsegek}">Gyümölcsök,Zöldségek</a>
+        <a th:href="@{/husok}">Hús áru</a>
+        <a th:href="@{/italok}">Italok</a>
+        <a th:href="@{/pekaruk}">Pékáru</a>  
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Kijelentkezés" class="btn btn-secondary"/>
+        </form>      
+        </div>
+    <div class="megjelenitesKeret">
+    
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>
+                                Áru neve
+                            </th>
+                            <th>Darabszám</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <form action="#" th:action="@{/modifySelectedItal}" method="post" th:object="${wrapper}">
+
+                        <tr th:each="ital, i : *{list}">   
+                            <td th:text="${ital.nev}"></td>  
+                            <td><input type="number" th:field="*{list[__${i.index}__].darabSzam}" id="darabSzam"></td>    
+                            <td><input type="hidden" th:field="*{list[__${i.index}__].id}"></td>
+                          </tr>
+                        <input type="submit" class="btn btn-primary" value="Kijelölt áruk darabszám módosítása"><br>
+                    </tbody>
+                </table>
+
+</div>
+<div class ="footer" >
+    <p>Raktárkezelő rendszer by Adorján Kevin</p>
+  </div>
+</body>
+</html>

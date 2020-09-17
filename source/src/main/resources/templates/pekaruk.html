@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pékáru</title>
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+    <div class="sidenav">
+        <a th:href="@{/csomagoltak}">Csomagolt áru</a>
+        <a th:href="@{/gyumolcseszoldsegek}">Gyümölcsök,Zöldségek</a>
+        <a th:href="@{/husok}">Hús áru</a>
+        <a th:href="@{/italok}">Italok</a>
+        <a th:href="@{/pekaruk}">Pékáru</a>
+        <a th:href="@{/pekaruPdf}">Nyomtatás</a>
+        <form th:action="@{/logout}" method="post">
+          <input type="submit" value="Kijelentkezés" class="btn btn-secondary"/>
+      </form>   
+      </div>
+      <div class="megjelenitesKeret">
+        <a class="hozzaAdas" href="/pekaruk/edit"><input type="button" class="btn btn-primary" value="Új áru hozzáadása"  ></a>
+
+          <table>
+              <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Cikkszám</th>
+                    <th>Áru Neve</th>
+                    <th>Ár(brutto) / db</th>
+                    <th>Darabszám</th>
+                    <th>Súly (gramm)</th>
+                    <th>Kijelölés</th>
+                    <th>Áru adatainak módosítása</th>
+                    <th>ÁRU TÖRLÉSE!!</th>
+                </tr>
+              </thead>
+              <tbody>
+                <form th:action="@{/getSelectedPekaru}" method="post">
+
+                <tr th:each="pekaru :${pekaruk}" th:class="${pekaru.darabSzam <  pekaru.darabSzamMinimum ? 'piros' : ''}">
+                    <td th:text="${pekaru.id}"></td>
+                    <td th:text="${pekaru.cikkSzam}"></td>
+                    <td th:text="${pekaru.nev}"></td>
+                    <td th:text="${pekaru.termekAra}"></td>
+                    <td th:text="${pekaru.darabSzam}"></td>
+                    <td th:text="${pekaru.sulyGramm}"></td>
+                    <td><input type="checkbox" name="pekaruk" th:value="${pekaru.id}"></td>
+                    <td>
+                      <a th:href="@{/pekaruk/edit/{id}(id=${pekaru.id})}" class="btn btn-primary">
+                          <i class="fas fa-user-edit ml-2"></i>
+                      </a>
+                  </td>
+                  <td>
+                    <div class="text-center">
+                      <!-- Button HTML (to Trigger Modal) -->
+                      <a href="#myModal" class="btn btn-danger" data-toggle="modal">TÖRLÉS</a>
+                    </div>
+                    <div id="myModal" class="modal fade">
+                      <div class="modal-dialog modal-confirm">
+                        <div class="modal-content">
+                          <div class="modal-header flex-column">
+                            <div class="icon-box">
+                              <i class="material-icons">&#xE5CD;</i>
+                            </div>						
+                            <h4 class="modal-title w-100">Biztosan törölni akarja az árut?</h4>	
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                          </div>
+                          <div class="modal-body">
+                            <p th:text="${pekaru.nev}"></p>
+                          </div>
+                          <div class="modal-footer justify-content-center">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Mégse</button>
+                            <a th:href="@{/pekaruk/delete/{id}(id=${pekaru.id})}" class="btn btn-danger">TÖRLÉS
+                              <i class="fas fa-user-times ml-2"></i>
+                          </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>   
+                </td>
+
+
+                </tr>
+                <input type="submit" class="btn btn-primary" value="Küldés"><br>
+                </form>
+              </tbody>
+            </table>
+
+      </div>
+
+
+
+      <div class ="footer" >
+        <p>Raktárkezelő rendszer by Adorján Kevin</p>
+      </div>
+</body>
+</html>
